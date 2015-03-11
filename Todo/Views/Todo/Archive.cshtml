@@ -1,0 +1,24 @@
+﻿@model IEnumerable<TodoApp.Models.Todo>
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<h2>Archive</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Task)
+        </th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Task)
+            </td>
+        </tr>
+    }
+
+</table>

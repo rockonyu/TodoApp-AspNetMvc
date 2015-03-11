@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TodoApp.Models.Todo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+    }
+</style>
+
+<h2>Todo</h2>
+<div ng-app="todoApp" ng-controller="TodoController" ng-init="getTodos()" ng-cloak>
+    <p>Search: <input ng-model="search.Task">&nbsp;&nbsp; <span ng-show="search.Task != ''" ng-bind="results.length"></span></p>
+    <p>
+        <span>{{remaining()}} of {{todos.length}} remaining</span>
+        [ <a href="" ng-click="archive()">archive</a> ]
+    </p>
+
+    <ul id="sortable">
+        <li ng-repeat="todo in todos | orderBy:'Order' | filter:search as results" ng-attr-id="{{ todo.Id }}">
+            <input type="checkbox" ng-model="todo.IsDone" ng-click="toggle(todo)">
+            <span ng-if="!todo.IsEdit">
+                {{todo.Task}}
+                <a ng-click="enterEditMode(todo)">Edit</a>
+                <a ng-click="removeTodo($index)">Delete</a>
+            </span>
+
+            <div ng-if="todo.IsEdit">
+                <input type="text" ng-model="todo.EditTask">
+                <br>
+                <a ng-click="confirmEdit(todo)">確認</a>
+                <a ng-click="cancelEdit(todo)">取消</a>
+            </div>
+        </li>
+    </ul>
+    <form ng-submit="addTodo()">
+        <input type="text" ng-model="task" placeholder="新的待辦事項">
+        <input type="submit" value="add">
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/todo.js?@DateTime.Now.ToString("hhmmss")"></script>
+}
