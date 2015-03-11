@@ -49,7 +49,6 @@ namespace TodoApp.Controllers {
             Todo todo = db.Todos.Find(id);
             db.Todos.Remove(todo);
             db.SaveChanges();
-            // ReorderTodos();
         }
 
         [HttpPost]
@@ -84,13 +83,9 @@ namespace TodoApp.Controllers {
             return Json(db.Todos.Where(m => m.IsArchive == false).OrderBy(m => m.Order).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        //private void ReorderTodos() {
-        //    var todos = db.Todos.OrderBy(m => m.Order).ToList();
-        //    for (var i = 0; i < todos.Count; i++) {
-        //        todos[i].Order = i + 1;
-        //    }
-        //    db.SaveChanges();
-        //}
+        public int Count() {
+            return db.Todos.Where(m => m.IsArchive == false).Count();
+        }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {
