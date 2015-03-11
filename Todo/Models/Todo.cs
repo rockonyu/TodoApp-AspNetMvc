@@ -11,6 +11,7 @@ namespace TodoApp.Models {
 
         public int Order { get; set; }
 
+        [Display(Name="待辦事項")]
         public string Task { get; set; }
 
         public bool IsDone { get; set; }

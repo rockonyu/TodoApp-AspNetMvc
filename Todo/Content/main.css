@@ -1,0 +1,9 @@
+﻿[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.ui[class*="right floated"].input {
+    float: right;
+    margin-right: 0em;
+    margin-left: 0.25em;
+}

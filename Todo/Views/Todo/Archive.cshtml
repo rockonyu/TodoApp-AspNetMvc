@@ -1,24 +1,40 @@
 ﻿@model IEnumerable<TodoApp.Models.Todo>
 
 @{
-    ViewBag.Title = "Archive";
+    ViewBag.Title = "已備份的項目";
 }
 
-<h2>Archive</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Task)
-        </th>
-    </tr>
-
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Task)
-            </td>
-        </tr>
-    }
-
-</table>
+<div class="ui padded grid">
+    <div class="three wide column">
+    </div>
+    <div class="ten wide column">
+        <div class="inline field">
+            <div class="ui left floated launch icon button">
+                <i class="sidebar icon"></i>
+            </div>
+        </div>
+        <div class="ui secondary pointing filter menu">
+            <a class="active teal item" data-tab="unread">@ViewBag.Title</a>
+        </div>
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(modelItem => modelItem.Task)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Task)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="three wide column">
+    </div>
+</div>
