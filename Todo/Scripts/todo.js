@@ -59,17 +59,18 @@
               $scope.getTodos();
           });
       };
-  }]);
 
-$(function () {
-    $("#sortable").sortable({
-        update: function (event, ui) {
-            var ids = $("#sortable").sortable("toArray");
-            $.post("/todo/changeOrder", $.param({ ids: ids }, true))
-            .done(function (data) {
-            }).fail(function () {
-                alert('排序尚未儲存!');
-            });
-        }
-    });
-});
+      $(function () {
+          $("#sortable").sortable({
+              update: function (event, ui) {
+                  var ids = $("#sortable").sortable("toArray");
+                  $.post("/todo/changeOrder", $.param({ ids: ids }, true))
+                  .done(function (data) {
+                      $scope.todos = data;
+                  }).fail(function () {
+                      alert('排序尚未儲存!');
+                  });
+              }
+          });
+      });
+  }]);

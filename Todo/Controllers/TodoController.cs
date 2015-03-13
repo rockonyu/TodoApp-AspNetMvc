@@ -37,7 +37,7 @@ namespace TodoApp.Controllers {
         [HttpPost]
         public JsonResult Create(Todo todo) {
             if (ModelState.IsValid) {
-                todo.Order = db.Todos.Count() + 1;
+                todo.Order = Count() + 1;
                 db.Todos.Add(todo);
                 db.SaveChanges();
             }
@@ -68,23 +68,29 @@ namespace TodoApp.Controllers {
         }
 
         [HttpPost]
-        public void ChangeOrder(List<int> ids) {
+        public JsonResult ChangeOrder(List<int> ids) {
+            var activeTodos = GetActiveTodos().AsEnumerable();
             for (var i = 0; i < ids.Count; i++) {
                 var id = ids[i];
-                var client = db.Todos.FirstOrDefault(m => m.Id == id);
-                if (client != null) {
-                    client.Order = i + 1;
+                var todo = activeTodos.FirstOrDefault(m => m.Id == id);
+                if (todo != null) {
+                    todo.Order = i + 1;
                 }
             }
             db.SaveChanges();
+            return Json(activeTodos.OrderBy(m => m.Order).ToList());
         }
 
         public JsonResult GetTodos() {
-            return Json(db.Todos.Where(m => m.IsArchive == false).OrderBy(m => m.Order).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(GetActiveTodos().OrderBy(m => m.Order).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public int Count() {
-            return db.Todos.Where(m => m.IsArchive == false).Count();
+            return GetActiveTodos().Count();
+        }
+
+        private IQueryable<Todo> GetActiveTodos() {
+            return db.Todos.Where(m => !m.IsArchive);
         }
 
         protected override void Dispose(bool disposing) {
